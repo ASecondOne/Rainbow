@@ -1,0 +1,84 @@
+{
+  "name": "workspace-language-bar",
+  "displayName": "Workspace Language Bar",
+  "description": "Shows a GitHub-style workspace language breakdown in the VS Code status bar.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:rainbowLanguageBar.refresh",
+    "onCommand:rainbowLanguageBar.showBreakdown",
+    "onCommand:rainbowLanguageBar.focusView",
+    "onView:rainbowLanguageBar.breakdown"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "rainbowLanguageBar.refresh",
+        "title": "Language Bar: Refresh"
+      },
+      {
+        "command": "rainbowLanguageBar.showBreakdown",
+        "title": "Language Bar: Show Breakdown"
+      },
+      {
+        "command": "rainbowLanguageBar.focusView",
+        "title": "Language Bar: Focus View"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "rainbowLanguageBar",
+          "title": "Languages",
+          "icon": "media/language-bar.svg"
+        }
+      ]
+    },
+    "views": {
+      "rainbowLanguageBar": [
+        {
+          "id": "rainbowLanguageBar.breakdown",
+          "type": "webview",
+          "name": "Workspace Language Bar",
+          "icon": "media/language-bar.svg",
+          "contextualTitle": "Workspace Language Bar",
+          "visibility": "visible"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "rainbowLanguageBar.refresh",
+          "when": "view == rainbowLanguageBar.breakdown",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Workspace Language Bar",
+      "properties": {
+        "rainbowLanguageBar.maxVisibleSegments": {
+          "type": "number",
+          "default": 6,
+          "minimum": 2,
+          "maximum": 12,
+          "description": "Maximum number of language segments to show in the bar before smaller languages are grouped into Other."
+        },
+        "rainbowLanguageBar.excludeGlob": {
+          "type": "string",
+          "default": "**/{.git,node_modules,dist,out,build,target,coverage,.next,.nuxt,.svelte-kit,.vscode-test}/**",
+          "description": "Workspace glob pattern to exclude when calculating language usage."
+        }
+      }
+    }
+  }
+}
